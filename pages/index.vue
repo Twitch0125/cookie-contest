@@ -25,10 +25,10 @@
 <script>
 export default {
   async asyncData({ $http }) {
-    const cookies = await $http.$get('http://strapi.kaleberc.com/cookies')
+    const cookies = await $http.$get('https://strapi.kaleberc.com/cookies')
     cookies.forEach(
       (cookie) =>
-        (cookie.picture.url = `http://strapi.kaleberc.com${cookie.picture.url}`)
+        (cookie.picture.url = `https://strapi.kaleberc.com${cookie.picture.url}`)
     )
     return { cookies }
   },
