@@ -1,5 +1,21 @@
 <template>
   <form class="container" ref="form">
+    <transition
+      enter-class="opacity-0"
+      enter-active-class=""
+      enter-to-class="opacity-100"
+      leave-class="opacity-100"
+      leave-active-class=""
+      leave-to-class="opacity-0"
+    >
+      <div
+        v-if="loading"
+        class="absolute z-10 bg-blue-800 text-white p-4 rounded bg-opacity-75"
+        style="bottom: 25px"
+      >
+        Saving cookie...
+      </div>
+    </transition>
     <div class="flex flex-col px-2">
       <div class="py-2">
         <label class="block font-medium" for="name">Name*</label>
@@ -77,6 +93,7 @@ export default {
       description: '',
       showErrors: false,
       errors: [],
+      loading: false,
     }
   },
   methods: {
@@ -99,6 +116,7 @@ export default {
       if (this.validate()) {
         return
       }
+      this.loading = true
       this.showErrors = false
       const formData = new FormData()
       const data = {}
@@ -111,6 +129,7 @@ export default {
         'https://strapi.kaleberc.com/cookies',
         formData
       )
+      this.loading = false
       this.$router.push('/')
     },
   },
