@@ -55,6 +55,15 @@
         />
       </div>
       <div class="py-4">
+        <div class="text-sm bg-gray-200 p-2 rounded">
+          If you keep getting an error, try taking another picture and uploading
+          it.
+          <div class="">
+            Its an existing bug that I didn't have time to fix 🤷‍♂️
+          </div>
+        </div>
+      </div>
+      <div class="py-4">
         <button
           @click.prevent="submit"
           class="font-medium tracking-wide bg-blue-700 text-white px-3 py-2 rounded"
@@ -91,10 +100,14 @@ export default {
     return {
       name: '',
       description: '',
-      showErrors: false,
       errors: [],
       loading: false,
     }
+  },
+  computed: {
+    showErrors() {
+      return this.errors.length
+    },
   },
   methods: {
     validate() {
@@ -102,12 +115,10 @@ export default {
       let errors = false
       if (this.$refs.file.files.length != 1) {
         this.errors.push('An image of your cookie is required')
-        this.showErrors = true
         errors = true
       }
       if (!this.name) {
         this.errors.push('A name is required')
-        this.showErrors = true
         errors = true
       }
       return errors
@@ -118,19 +129,25 @@ export default {
       }
       this.loading = true
       this.showErrors = false
-      const formData = new FormData()
-      const data = {}
-      this.name && (data.name = this.name)
-      this.description && (data.description = this.description)
-      const file = this.$refs.file.files[0]
-      formData.append('files.picture', file, file.name)
-      formData.append('data', JSON.stringify(data))
-      const cookie = await this.$http.post(
-        'https://strapi.kaleberc.com/cookies',
-        formData
-      )
-      this.loading = false
-      this.$router.push('/')
+      try {
+        const formData = new FormData()
+        const data = {}
+        this.name && (data.name = this.name)
+        this.description && (data.description = this.description)
+        const file = this.$refs.file.files[0]
+        formData.append('files.picture', file, file.name)
+        formData.append('data', JSON.stringify(data))
+        const cookie = await this.$http.post(
+          'https://strapi.kaleberc.com/cookies',
+          formData
+        )
+        this.loading = false
+        this.$router.push('/')
+      } catch (err) {
+        this.loading = false
+        console.error('err', err)
+        this.errors.push(`Error: ${err}`)
+      }
     },
   },
 }
