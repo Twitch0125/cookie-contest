@@ -1,78 +1,47 @@
 <template>
   <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        cookie-contest
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+    <section class="flex justify-center py-6 pb-12">
+      <nuxt-link
+        class="bg-blue-700 rounded px-3 py-2 text-white font-medium tracking-wide"
+        to="/add-cookie"
+      >
+        ADD YOUR COOKIE
+      </nuxt-link>
+    </section>
+    <section>
+      <h1 class="font-bold text-xl">COOKIES</h1>
+      <div class="grid lg:grid-cols-2">
+        <Card
+          class="m-2"
+          v-for="cookie in cookies"
+          :key="cookie.id"
+          :cookie="cookie"
+        />
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  async asyncData({ $http }) {
+    const cookies = await $http.$get('http://strapi.kaleberc.com/cookies')
+    cookies.forEach(
+      (cookie) =>
+        (cookie.picture.url = `http://strapi.kaleberc.com${cookie.picture.url}`)
+    )
+    return { cookies }
+  },
+}
 </script>
 
 <style>
-/* Sample `apply` at-rules with Tailwind CSS
 .container {
-@apply min-h-screen flex justify-center items-center text-center mx-auto;
+  @apply min-h-screen flex flex-col mx-auto px-2;
 }
-*/
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+.card {
+  @screen lg {
+    width: 600px;
+  }
 }
 </style>
