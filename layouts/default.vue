@@ -1,9 +1,9 @@
 <template>
   <div>
     <div
-      class="border-b shadow mb-2 px-4 py-2 flex align-center justify-center"
+      class="border-b shadow mb-2 px-4 py-3 flex align-center justify-center"
     >
-      <nuxt-link to="/" class="text-large font-medium"
+      <nuxt-link to="/" class="text-xl font-bold text-blue-800"
         >Ercanbrack Cookie Contest</nuxt-link
       >
     </div>

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <section class="flex justify-center pb-12">
+    <section class="flex justify-center py-6 pb-12">
       <nuxt-link
         class="bg-blue-700 rounded px-3 py-2 text-white font-medium tracking-wide"
         to="/add-cookie"
