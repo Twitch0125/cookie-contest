@@ -25,7 +25,6 @@
 <script>
 export default {
   async asyncData({ $http, $config }) {
-    console.log({$config});
     const cookies = await $http.$get(`${$config.apiUrl}/cookies`)
     cookies.forEach(
       (cookie) =>
