@@ -138,7 +138,7 @@ export default {
         formData.append('files.picture', file, file.name)
         formData.append('data', JSON.stringify(data))
         const cookie = await this.$http.post(
-          'https://strapi.kaleberc.com/cookies',
+          `${this.$config.apiUrl}/cookies`,
           formData
         )
         this.loading = false

@@ -24,11 +24,12 @@
 
 <script>
 export default {
-  async asyncData({ $http }) {
-    const cookies = await $http.$get('https://strapi.kaleberc.com/cookies')
+  async asyncData({ $http, $config }) {
+    console.log({$config});
+    const cookies = await $http.$get(`${$config.apiUrl}/cookies`)
     cookies.forEach(
       (cookie) =>
-        (cookie.picture.url = `https://strapi.kaleberc.com${cookie.picture.url}`)
+        (cookie.picture.url = `${$config.apiUrl}${cookie.picture.url}`)
     )
     return { cookies }
   },

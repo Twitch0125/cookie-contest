@@ -21,7 +21,9 @@ export default {
     port: 8080,
     host: '0.0.0.0',
   },
-
+  publicRuntimeConfig:{
+    apiUrl : process.env.API_URL || 'https://strapi.kaleberc.com'
+  },
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [],
 
